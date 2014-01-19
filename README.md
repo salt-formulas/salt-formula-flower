@@ -12,6 +12,7 @@
         broker:
           engine: rabbitmq
           host: localhost
+          port: 5672
           virtual_host: /test
           user: test
           password: test
