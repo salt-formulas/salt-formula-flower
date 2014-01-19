@@ -2,101 +2,39 @@
 
 include:
 - python
-- git
 
 flower_packages:
-  pkg:
-  - installed
+  pkg.installed:
   - names:
-    - nodejs
+    - python-setuptools
+    - python-docutils
+    - python-simplejson
+    - build-essential
+    - gettext
+  - require:
+    - pkg: python_packages
+
+/srv/flower:
+  virtualenv.manage:
+  - system_site_packages: True
+  - requirements: salt://flower/conf/requirements.txt
+  - require:
+    - pkg: flower_packages
 
 flower_user:
   user.present:
   - name: flower
-  - system: True
+  - system: true
   - home: /srv/flower
   - require:
-    git: https://github.com/etsy/flower.git
+    - virtualenv: /srv/flower
 
-https://github.com/etsy/flower.git:
-  git.latest:
-  - target: /srv/flower
-
-flower:
-  service.running:
-  - require:
-    - file: /etc/init.d/flower
-  - watch:
-    - file: /etc/flower/localConfig.js
-
-/etc/flower/localConfig.js:
-  file:
-  - managed
-  - source: salt://flower/conf/localConfig.js
-  - user: root
-  - group: root
-  - mode: 644
-  - template: jinja
-
-{#
-/etc/default/flower:
-  file:
-  - managed
-  - source: salt://flower/conf/default
-  - user: root
-  - group: root
-  - mode: 644
-  - template: jinja
-
-/srv/flower/scripts:
-  file:
-  - directory
+/srv/flower/logs:
+  file.directory:
+  - mode: 755
   - user: flower
-  - group: flower
-  - mode: 770
   - require:
-    - user: flower
-    - git: https:://github.com/etsy/flower.git
-
-/srv/flower/scripts/start:
-  file:
-  - managed
-  - source: salt://flower/conf/start
-  - user: root
-  - group: root
-  - mode: 744
-  - template: jinja
-  - require:
-    - file: /srv/flower/scripts
-#}
-
-/var/log/flower:
-  file:
-  - directory
-  - user: flower
-  - group: flower
-  - mode: 777
-  - require:
-    - user: flower
-
-update-rc.d flower defaults:
-  cmd.run:
-  - require:
-    - service: flower
-
-{%- for backend in pillar.flower.backends %}
-
-{%- if backend.type == 'amqp' %}
-#flower_amqp_package:
-#  npm.installed:
-#  - name: flower-amqp-backend
-
-install_package:
-  cmd.run:
-  - name: npm install flower-amqp-backend
-
-{%- endif %}
-
-{%- endfor %}
+    - virtualenv: /srv/flower
+    - user: flower_user
 
 {%- endif %}
