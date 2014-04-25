@@ -9,7 +9,9 @@ flower_packages:
     - python-setuptools
     - python-docutils
     - python-simplejson
+    {%- if grains.os_family == "Debian" %}
     - build-essential
+    {%- endif %}
     - gettext
   - require:
     - pkg: python_packages
