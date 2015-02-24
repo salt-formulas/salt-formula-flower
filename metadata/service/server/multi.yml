@@ -1,0 +1,6 @@
+applications:
+- flower
+parameters:
+  flower:
+    server:
+      enabled: true

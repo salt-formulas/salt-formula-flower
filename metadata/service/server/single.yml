@@ -1,0 +1,22 @@
+applications:
+- flower
+parameters:
+  supervisor:
+    server:
+      service:
+        flower_server:
+          name: server
+          type: flower
+  flower:
+    server:
+      enabled: true
+      bind:
+        port: 5555
+        address: 0.0.0.0
+      broker:
+        engine: rabbitmq
+        host: ${linux:network:host:cfg01:address}
+        port: 5672
+        virtual_host: /robotice_control
+        user: robotice_control
+        password: robotice_control
