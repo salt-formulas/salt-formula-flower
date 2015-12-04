@@ -1,0 +1,9 @@
+doc:
+  name: Flower
+  description: Flower is a web based tool for monitoring and administrating Celery clusters.
+  role:
+  {%- if pillar.flower.server is defined %}
+    server:
+      name: server
+      param: {}
+  {%- endif %}
