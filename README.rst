@@ -1,11 +1,16 @@
 
-# Flower
+==============
+Flower Formula
+==============
 
 Flower is a web based tool for monitoring and administrating Celery clusters.
 
-## Sample pillars
+Sample Pillars
+==============
 
-### Flower single broker
+Flower single broker
+
+.. code-block:: yaml
 
     flower:
       server:
@@ -19,7 +24,9 @@ Flower is a web based tool for monitoring and administrating Celery clusters.
           port: 6379
           number: 0
 
-### Flower with many rabbitmq broker
+Flower with multiple brokers
+
+.. code-block:: yaml
 
     flower:
       server:
@@ -37,9 +44,10 @@ Flower is a web based tool for monitoring and administrating Celery clusters.
               user: test
               password: test
 
-note: supervisor must specified service with message_queue.name ..location_hklab01 for this example 
 
-### Flower with redis broker
+Flower with redis broker
+
+.. code-block:: yaml
 
     flower:
       server:
@@ -53,6 +61,7 @@ note: supervisor must specified service with message_queue.name ..location_hklab
           port: 6379
           number: 0
 
-## Read more
+More Information
+================
 
 * https://github.com/mher/flower
